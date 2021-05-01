@@ -1,0 +1,50 @@
+@keyframes twitch
+  0%
+    tranform: scale(1)
+  50%
+    transform: scale(1.25)
+  100%
+    transform: scale(1)
+
+@mixin Twitch
+  animation: twitch .1s
+
+@mixin TwitchOnHover
+  &:hover:not(:disabled)
+    @include Twitch
+
+@mixin TwitchOnFocus
+  &:focus
+    @include Twitch
+
+@keyframes Boing
+  0%
+    transform: scale(.7)
+  50%
+    transform: scale(1.1)
+  100%
+    transform: scale(1)
+
+
+@keyframes slideDown
+  0%
+    transform: translate(0, -200px)
+  100%
+    transform: translate(0,0)
+
+@mixin SlideDown
+  animation: slideDown .5s
+
+@keyframes jiggle
+  0%
+    transform: translate(0px, 0px)
+  25%
+    transform: translate(40px, 0px)
+  75%
+    transform: translate(-40px, 0px)
+  100%
+    transform: translate(0px, 0px)
+
+@mixin Jiggle
+  animation: jiggle .1s 3
+  animation-timing-function: linear

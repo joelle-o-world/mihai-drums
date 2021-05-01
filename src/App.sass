@@ -1,3 +1,64 @@
+@use './Animations' as *
+
 body
-  background-color: rgb(176, 161,131)
-  .PatternEditor
+  background-color: rgb(236,240,246)
+  .App
+    box-sizing: border-box
+    height: 100vh
+    min-width: 100vw
+    display: flex
+    flex-direction: column
+    justify-content: center
+    align-items: center
+    .AppHeader
+      font-family: Charter, serif
+      color: red
+      display: flex
+      flex-direction: row
+      align-items: baseline
+      h2
+        font-size: 15px
+        font-weight: 100
+      
+    .PatternEditor
+      border-spacing: 0px
+      padding: 20px
+      background-color: rgb(184, 194,205)
+
+      .PatternEditorSampleName
+        color: black
+        text-transform: uppercase
+        font-size: 50%
+      .PatternEditorStep
+        padding: 0px
+        cursor: pointer
+        &:hover
+          background-color: #ffffcc
+          .DrumToggle
+            @include Twitch
+        &.nowPlayingStep
+          background-color: rgba(255,255,255, .4)
+          .DrumToggle.switchedOn
+            @include Twitch
+        .DrumToggle
+          position: relative
+          cursor: pointer
+          font-family: inherit
+          background-color: rgb(168, 174, 180)
+          box-shadow: 3px 4px 0px rgb(97, 101, 110)
+          border: none
+          //border-bottom: 3px solid rgb(97, 101, 110)
+          //border-right: 3px solid rgb(97, 101, 110)
+          //border-top: 2px solid #ccc
+          //border-left: 2px solid #ccc
+
+          width: 40px
+          height: 40px
+          &.switchedOn
+            background-color: red
+            transform: scale(.9)
+            z-index: 2
+            &:hover
+              @include Twitch
+          &.switchedOff
+            transform: scale(.7)

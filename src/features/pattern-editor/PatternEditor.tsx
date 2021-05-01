@@ -5,6 +5,7 @@ import {selectPatternEditor, toggleStep} from './patternEditorSlice';
 import classNames from 'classnames';
 
 import './PatternEditor.sass'
+import {DrumToggle} from './DrumToggle';
 
 export const PatternEditor: FunctionComponent = () => {
   const state = useSelector(selectPatternEditor)
@@ -28,19 +29,17 @@ export const PatternEditor: FunctionComponent = () => {
                 switchedOn: step,
               }
             )}
+            onClick={() => dispatch(toggleStep({
+              channel: c,
+              time: t,
+            }))} 
             onMouseOver={e => e.buttons === 1 && dispatch(toggleStep({
               channel: c,
               time: t,
             }))}
           >
-            <input 
-              type="checkbox" 
-              checked={step} 
-              onClick={() => dispatch(toggleStep({
-                channel: c,
-                time: t,
-              }))} 
-              
+            <DrumToggle 
+              value={step} 
             />
           </td>
         ))}
