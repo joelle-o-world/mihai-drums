@@ -1,6 +1,31 @@
 @use './Animations' as *
 
+$drumPadColor: rgb(102,91,88)
+
+@mixin DrumPad($color: $drumPadColor, $intensity: .51)
+  background-color: $color
+  border-top: 1px solid lighten($color, 25% * $intensity)
+  border-right: 3px solid lighten($color, 10% * $intensity)
+  border-bottom: 3px solid darken($color, 15% * $intensity)
+  border-left: 2px solid darken($color, 20% * $intensity)
+  border-radius: 3px
+  &:active
+    background-color: darken($color, 5%)
+    //border-top: 1px solid lighten($color, 25% * $intensity)
+    border-top: none
+    border-right: 1px solid lighten($color, 10% * $intensity)
+    border-bottom: 1px solid darken($color, 15% * $intensity)
+    border-left: 1px solid darken($color, 20% * $intensity)
+  &:hover
+    +Twitch
+
+@mixin GlowingDrumPad($color)
+  @include DrumPad($color)
+  box-shadow: 0px 0px 25px scale-color($color, $alpha: -30%)
+  
+
 body
+  //background-color: rgb(202, 201, 195)
   background-color: rgb(236,240,246)
   .App
     box-sizing: border-box
@@ -23,42 +48,43 @@ body
     .PatternEditor
       border-spacing: 0px
       padding: 20px
-      background-color: rgb(184, 194,205)
+      background-color: rgb(107,110,115)
+      //background-color: rgb(184, 194,205)
 
       .PatternEditorSampleName
         color: black
         text-transform: uppercase
         font-size: 50%
       .PatternEditorStep
-        padding: 0px
+        padding: 3px
         cursor: pointer
         &:hover
-          background-color: #ffffcc
+          //background-color: #ffffcc
           .DrumToggle
-            @include Twitch
+            //@include Twitch
         &.nowPlayingStep
-          background-color: rgba(255,255,255, .4)
+          //background-color: rgba(255,255,255, .4)
           .DrumToggle.switchedOn
             @include Twitch
+          .DrumToggle.switchedOff
+            @include DrumPad(lighten($drumPadColor, 5%))
         .DrumToggle
           position: relative
           cursor: pointer
           font-family: inherit
-          background-color: rgb(168, 174, 180)
-          box-shadow: 3px 4px 0px rgb(97, 101, 110)
-          border: none
-          //border-bottom: 3px solid rgb(97, 101, 110)
-          //border-right: 3px solid rgb(97, 101, 110)
-          //border-top: 2px solid #ccc
-          //border-left: 2px solid #ccc
+          //transition: background-color .04s
 
           width: 40px
           height: 40px
           &.switchedOn
-            background-color: red
-            transform: scale(.9)
+            @include GlowingDrumPad(red)
+            //transform: scale(.9)
             z-index: 2
             &:hover
-              @include Twitch
+              //@include Twitch
           &.switchedOff
-            transform: scale(.7)
+            @include DrumPad
+            box-shadow: -1px 2px 3px rgb(35,30,31)
+            &:hover
+              @include DrumPad(lighten($drumPadColor, 10%))
+            //transform: scale(.7)
