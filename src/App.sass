@@ -1,6 +1,8 @@
 @use './Animations' as *
 
 $drumPadColor: rgb(102,91,88)
+$specialBeige: rgb(207, 193,166)
+$darkerGray: rgb(107,110,115)
 
 @mixin DrumPad($color: $drumPadColor, $intensity: .51)
   background-color: $color
@@ -32,36 +34,48 @@ body
     height: 100vh
     min-width: 100vw
     display: flex
-    flex-direction: column
+    flex-direction: row
     justify-content: center
     align-items: center
-    .AppHeader
-      font-family: Charter, serif
-      color: red
-      display: flex
-      flex-direction: row
-      align-items: baseline
-      h2
-        font-size: 15px
-        font-weight: 100
+    flex-wrap: wrap
+    .Controls
+      min-width: 200px
+      margin: 20px
+      .AppHeader
+        font-family: Charter, serif
+        color: red
+        display: flex
+        flex-direction: row
+        align-items: baseline
+        h2
+          font-size: 15px
+          font-weight: 100
       
+    .PatternEditorWrapper
+      flex-grow: 1
+      //display: flex
+      //justify-content: center
+      //align-items: center
+      min-height: 100vh
+      max-width: 100%
+      overflow-x: auto
     .PatternEditor
       border-spacing: 0px
       padding: 20px
-      background-color: rgb(107,110,115)
+      background-color: $darkerGray
       //background-color: rgb(184, 194,205)
 
       .PatternEditorSampleName
         color: black
         text-transform: uppercase
         font-size: 50%
+        position: sticky
+        left: 0px
+        z-index: 3
+        span
+          background-color: $darkerGray
       .PatternEditorStep
         padding: 3px
-        cursor: pointer
-        &:hover
-          //background-color: #ffffcc
-          .DrumToggle
-            //@include Twitch
         &.nowPlayingStep
           //background-color: rgba(255,255,255, .4)
           .DrumToggle.switchedOn
@@ -70,21 +84,31 @@ body
             @include DrumPad(lighten($drumPadColor, 5%))
         .DrumToggle
           position: relative
-          cursor: pointer
           font-family: inherit
-          //transition: background-color .04s
 
           width: 40px
           height: 40px
           &.switchedOn
             @include GlowingDrumPad(red)
-            //transform: scale(.9)
             z-index: 2
-            &:hover
-              //@include Twitch
           &.switchedOff
             @include DrumPad
             box-shadow: -1px 2px 3px rgb(35,30,31)
             &:hover
               @include DrumPad(lighten($drumPadColor, 10%))
-            //transform: scale(.7)
+
+
+.PushButton
+  display: inline-flex
+  flex-direction: column
+  align-items: center
+  margin: 20px
+  width: 100px
+  >label
+    text-transform: uppercase
+    font-size: 12px
+  >button
+    @include DrumPad($specialBeige)
+    box-shadow: 0px 0px 10px rgba(0,0,0,0.2)
+    width: 40px
+    height: 30px

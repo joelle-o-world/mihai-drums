@@ -17,7 +17,9 @@ export const PatternEditor: FunctionComponent = () => {
     {state.channels.map((channel, c) => (
       <tr key={c} className="PatternEditorChannel">
         <th className="PatternEditorSampleName">
-          {channel.sampleName}
+          <span>
+            {channel.sampleName}
+          </span>
         </th>
         {channel.steps.map( (step, t) => (
           <td 
