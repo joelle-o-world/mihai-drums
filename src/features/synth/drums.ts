@@ -14,6 +14,8 @@ import mihai5 from './drum-samples/mihai5.mp3';
 import mihai6 from './drum-samples/mihai6.mp3';
 import mihai7 from './drum-samples/mihai7.mp3';
 
+import loadAudioBuffer from '../../loadAudioBuffer';
+
 const audioFiles: {[name:string]: string} = { 
   kick,
   clap, 
@@ -34,29 +36,6 @@ const audioFiles: {[name:string]: string} = {
 
 export const drumSampleNames = Object.keys(audioFiles);
 
-function loadAudioBuffer(url: string, ctx: AudioContext): Promise<AudioBuffer> {
-  return new Promise((fulfil, reject) => {
-    const xhttp = new XMLHttpRequest();
-    xhttp.open('get', url);
-    xhttp.responseType = 'arraybuffer';
-    xhttp.onload = () => {
-      let arrayBuffer = xhttp.response;
-      ctx.decodeAudioData(
-        arrayBuffer,
-        buffer => {
-          fulfil(buffer);
-        },
-        err => {
-          reject(err);
-        }
-      )
-    }
-    xhttp.onerror = err => {
-      reject(err)
-    };
-    xhttp.send();
-  });
-}
 
 export const drumBuffers:{[name: string]: AudioBuffer|'pending'|'loading'|undefined}  = {
 }

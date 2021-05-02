@@ -29,16 +29,17 @@ $darkerGray: rgb(107,110,115)
 @mixin LineThrough
    display: table
    white-space: nowrap
-   &:before, &:after
+   width: 100%
+   &::before, &::after
      border-top: 1px solid black
      content: ''
      display: table-cell
      position: relative
      top: 0.5em
      width: 45%
-   &:before 
+   &::before 
      right: 1.5%
-   &:after 
+   &::after 
      left: 1.5%
 
 @font-face
@@ -55,6 +56,7 @@ $darkerGray: rgb(107,110,115)
   margin: 10px
   border-radius: 0px 0px 4px 4px
   outline: none
+  line-height: 1.2em
   //text-align: center
   &::selection
     background: rgb(142,135,112)

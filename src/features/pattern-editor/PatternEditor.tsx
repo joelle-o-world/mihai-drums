@@ -7,6 +7,7 @@ import classNames from 'classnames';
 import './PatternEditor.sass'
 import {DrumToggle} from './DrumToggle';
 import {playDrums} from '../synth/synth';
+import {playRandomButtonSound} from '../sound-effects/sfx';
 
 export const PatternEditor: FunctionComponent = () => {
   const state = useSelector(selectPatternEditor)
@@ -35,16 +36,22 @@ export const PatternEditor: FunctionComponent = () => {
           >
             <DrumToggle 
               value={step} 
-              onMouseDown={() => dispatch(toggleStep({
-                channel: c,
-                time: t,
-              }))} 
+              onMouseDown={() => {
+                playRandomButtonSound();
+                dispatch(toggleStep({
+                  channel: c,
+                  time: t,
+                  }))
+                }
+              } 
               onMouseOver={e => {
-                if(e.buttons === 1)
+                if(e.buttons === 1) {
+                  playRandomButtonSound();
                   dispatch(toggleStep({channel: c, time: t}));
-                else
-                  if(step && !playing)
-                    playDrums([channel.sampleName], -1)
+                } else
+                  if(step && !playing) {
+                    //playDrums([channel.sampleName], -1)
+                  }
               }}
             />
           </td>
