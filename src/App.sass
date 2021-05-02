@@ -121,6 +121,7 @@ body
         &.nowPlayingStep
           //background-color: rgba(255,255,255, .4)
           .DrumToggle.switchedOn
+            @include GlowingDrumPad(yellow)
             @include Twitch
           .DrumToggle.switchedOff
             @include DrumPad(lighten($drumPadColor, 5%))

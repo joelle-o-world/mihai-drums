@@ -129,7 +129,7 @@ export function playSequence(
       for(let c=0; c < sequence.channels.length; ++c) {
         let channel = sequence.channels[c];
         if(channel.steps[nextStep])
-          synth.playDrum(channel.sampleName, nextStepTime, channel.chokeGroup || c);
+          synth.playDrum(channel.sampleName, nextStepTime, channel.chokeGroup || c+256);
       }
        
       const stepNumber = nextStep;

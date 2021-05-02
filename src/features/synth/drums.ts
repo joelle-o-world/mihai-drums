@@ -1,18 +1,19 @@
-import clap from './drum-samples/Clap-808.aif.mp3';
-import kick from './drum-samples/Kick FutureProof.wav.mp3'
-import bongo from './drum-samples/Bongo-C78-Low.aif.mp3';
-import snare from './drum-samples/Snare-707-b.aif.mp3';
-import hihat from './drum-samples/Hihat Sharp Closed.aif.mp3';
+import clap from './drum-samples/mastered/clap.mp3'
+import kick from './drum-samples/mastered/kick.mp3'
+import bongo from './drum-samples/mastered/bongo.mp3';
+import snare from './drum-samples/mastered/snare.mp3';
+import hihat from './drum-samples/mastered/hihat.mp3';
+import open_hat from './drum-samples/mastered/hihat-open.mp3';
 import tom from './drum-samples/Tom-909-Hi.aif.mp3';
-import cowbell from './drum-samples/Cowbell-808.aif.mp3';
-import shaker from './drum-samples/Maracas-808.aif.mp3';
-import kelela_mihai from './drum-samples/kelela.mp3';
-import mihai2 from './drum-samples/mihai2.mp3';
-import mihai3 from './drum-samples/mihai3.mp3';
-import mihai4 from './drum-samples/mihai4.mp3';
-import mihai5 from './drum-samples/mihai5.mp3';
-import mihai6 from './drum-samples/mihai6.mp3';
-import mihai7 from './drum-samples/mihai7.mp3';
+import cowbell from './drum-samples/mastered/cowbell.mp3';
+import shaker from './drum-samples/mastered/shaker.mp3';
+import kelela_mihai from './drum-samples/mastered/mihai1.mp3';
+import mihai2 from './drum-samples/mastered/mihai2.mp3';
+import mihai3 from './drum-samples/mastered/mihai3.mp3';
+import mihai4 from './drum-samples/mastered/mihai4.mp3';
+import mihai5 from './drum-samples/mastered/mihai5.mp3';
+import mihai6 from './drum-samples/mastered/mihai6.mp3';
+import mihai7 from './drum-samples/mastered/mihai7.mp3';
 
 import loadAudioBuffer from '../../loadAudioBuffer';
 
@@ -21,6 +22,7 @@ const audioFiles: {[name:string]: string} = {
   clap, 
   snare, 
   hihat, 
+  open_hat,
   tom, 
   bongo, 
   cowbell, 
