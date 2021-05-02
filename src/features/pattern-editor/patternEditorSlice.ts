@@ -82,6 +82,38 @@ export const patternEditorSlice = createSlice({
         row.steps[time] = !row.steps[time];
       // TODO: handle out of bounds error
     },
+
+    doublePattern: state => ({
+      ...state,
+      numberOfSteps: state.numberOfSteps*2,
+      channels: state.channels.map(channel => ({
+        ...channel,
+        steps: channel.steps.concat(channel.steps)
+      })),
+    }),
+
+    setTempo: (state, action:PayloadAction<number|string>) => {
+      let val = Number(action.payload)
+      if(!isNaN(val) && val > 0)
+        state.tempo = val
+    },
+
+    incrementTempo: (state, action:PayloadAction<number|string|undefined>) => {
+      let val = state.tempo + Number(action.payload || 3)
+      if(!isNaN(val) && val > 0)
+        state.tempo = val;
+    },
+    decrementTempo: (state, action:PayloadAction<number|string|undefined>) => {
+      let val = state.tempo - Number(action.payload || 3)
+      if(!isNaN(val) && val > 0)
+        state.tempo = val;
+    },
+
+    clearPattern: state => {
+      for(let channel of state.channels)
+        channel.steps = new Array(16).fill(false)
+      state.numberOfSteps = 16
+    },
   },
 });
 
@@ -89,4 +121,4 @@ export default patternEditorSlice.reducer;
 
 export const selectPatternEditor = (state: RootState) => state.patternEditor;
 
-export const {toggleStep} = patternEditorSlice.actions;
+export const {toggleStep, doublePattern, setTempo, incrementTempo, decrementTempo, clearPattern} = patternEditorSlice.actions;

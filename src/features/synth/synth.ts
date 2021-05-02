@@ -60,11 +60,11 @@ const getPersistantSynth = () => {
   return persistantSynth
 }
 
-export function playDrums(drums?: string[]) {
+export function playDrums(drums?: string[], chokeGroup?: number) {
   if(drums) {
     let synth = getPersistantSynth();
     for(let drum of drums)
-      synth.playDrum(drum, synth.ctx.currentTime);
+      synth.playDrum(drum, synth.ctx.currentTime, chokeGroup);
   }
 }
 
