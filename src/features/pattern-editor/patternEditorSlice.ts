@@ -81,6 +81,16 @@ export const patternEditorSlice = createSlice({
       let row = state.channels[channel];
       if(row) 
         row.steps[time] = !row.steps[time];
+
+      if(row.chokeGroup !== undefined) {
+        for(let c=0; c < state.channels.length; ++c) {
+          if(c === channel)
+            continue;
+
+          if(state.channels[c].chokeGroup === row.chokeGroup)
+            state.channels[c].steps[time] = false
+        }
+      }
       // TODO: handle out of bounds error
     },
 
