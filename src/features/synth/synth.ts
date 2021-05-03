@@ -1,6 +1,7 @@
 import EventEmitter from "events";
 import {PatternEditorState} from "../pattern-editor/patternEditorSlice";
 import drumBuffers, {loadDrumBuffers} from "./drums";
+import MediaRecorder from '../../MediaRecorderPolyfill';
 
 // @ts-ignore
 const AudioContext = window.AudioContext || window.webkitAudioContext;
@@ -11,12 +12,15 @@ export class Synth extends EventEmitter {
   ctx: AudioContext;
   masterVolume: GainNode;
   playingSources: {[chokeGroup: number]: AudioBufferSourceNode};
+  recorderDestination: MediaStreamAudioDestinationNode;
 
   constructor() {
     super();
     this.ctx = new AudioContext();
     this.masterVolume = this.ctx.createGain();
     this.masterVolume.connect(this.ctx.destination);
+    this.recorderDestination = this.ctx.createMediaStreamDestination();
+    this.masterVolume.connect(this.recorderDestination);
     this.playingSources = {};
   }
 
@@ -53,10 +57,23 @@ export class Synth extends EventEmitter {
 
   gracefulStop(t: number) {
   }
+
+  startRecording() {
+    const mimeType = ['audio/wav', 'audio/mpeg', 'audio/webm', 'audio/ogg']
+      .filter(MediaRecorder.isTypeSupported)[0]
+
+    console.log('## mimeType', mimeType);
+    let recorder = new MediaRecorder(
+      this.recorderDestination.stream,
+      {mimeType},
+    );
+    recorder.start();
+    return recorder;
+  }
 }
 
 let persistantSynth: Synth;
-const getPersistantSynth = () => {
+export const getPersistantSynth = () => {
   if(!persistantSynth)
     persistantSynth = new Synth();
   return persistantSynth
@@ -158,5 +175,6 @@ export function playSequence(
     setLooping,
     stop,
     updateSequence,
+    synth,
   }
 }

@@ -1,16 +1,19 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {RootState, AppThunk} from "../../app/store";
-import {playSequence} from './synth';
+import {downloadBlob} from "../../downloadFile";
+import {playSequence, getPersistantSynth} from './synth';
 
 export interface SynthState {
   playing: boolean;
   looping: boolean;
   nowPlayingStep: number | null;
+  recording: boolean;
 }
 
 const initialState: SynthState = {
   playing: false,
   looping: false,
+  recording: false,
   nowPlayingStep: null,
 }
 
@@ -41,11 +44,17 @@ export const synthSlice = createSlice({
       state.playing = false;
       state.looping = false;
       state.nowPlayingStep = null;
+    },
+    startedRecording: state => {
+      state.recording = true;
+    },
+    finishedRecording: state => {
+      state.recording = false;
     }
   },
 });
 
-export const {startLooping, stopPlaying, startPlaying, setNowPlayingStep, finishedPlaying, unloop} = synthSlice.actions;
+export const {startLooping, stopPlaying, startPlaying, setNowPlayingStep, finishedPlaying, unloop, startedRecording, finishedRecording} = synthSlice.actions;
 export default synthSlice.reducer
 export const selectSynth = (state: RootState) => state.synth;
 
@@ -75,3 +84,26 @@ export const synthPlay = (looping=false): AppThunk => async (dispatch, getState)
   })
 }
 
+
+export const startRecording = (): AppThunk => (dispatch, getState) => {
+  const synth = getPersistantSynth();
+  let recorder = synth.startRecording();
+
+  recorder.ondataavailable = (e: any) => {
+    downloadBlob(e.data)
+  }
+
+  dispatch(startedRecording())
+
+  if(!getState().synth.playing)
+    dispatch(synthPlay(true));
+
+  let interval = setInterval(() => {
+    let state = getState();
+    if(!state.synth.playing) {
+      recorder.stop();
+      clearInterval(interval);
+      dispatch(finishedRecording());
+    }
+  }, 1000);
+}
