@@ -8,12 +8,14 @@ export interface SynthState {
   looping: boolean;
   nowPlayingStep: number | null;
   recording: boolean;
+  hpfRaised: boolean;
 }
 
 const initialState: SynthState = {
   playing: false,
   looping: false,
   recording: false,
+  hpfRaised: false,
   nowPlayingStep: null,
 }
 
@@ -50,11 +52,21 @@ export const synthSlice = createSlice({
     },
     finishedRecording: state => {
       state.recording = false;
-    }
+    },
+
+    raisedHPF: state => {
+      state.hpfRaised = true;
+      console.log('raised');
+    },
+
+    droppedHPF: state => {
+      state.hpfRaised = false;
+      console.log('dropped')
+    },
   },
 });
 
-export const {startLooping, stopPlaying, startPlaying, setNowPlayingStep, finishedPlaying, unloop, startedRecording, finishedRecording} = synthSlice.actions;
+export const {startLooping, stopPlaying, startPlaying, setNowPlayingStep, finishedPlaying, unloop, startedRecording, finishedRecording, raisedHPF, droppedHPF} = synthSlice.actions;
 export default synthSlice.reducer
 export const selectSynth = (state: RootState) => state.synth;
 
@@ -106,4 +118,24 @@ export const startRecording = (): AppThunk => (dispatch, getState) => {
       dispatch(finishedRecording());
     }
   }, 1000);
+}
+
+export const raiseHPF = (): AppThunk => dispatch => {
+  const synth = getPersistantSynth();
+  synth.raiseHPF();
+  dispatch(raisedHPF());
+}
+
+export const dropHPF = (): AppThunk => dispatch => {
+  const synth = getPersistantSynth();
+  synth.dropHPF();
+  dispatch(droppedHPF());
+}
+
+export const toggleHPF = (): AppThunk => (dispatch, getState) => {
+  console.log('toggling');
+  if(!getState().synth.hpfRaised)
+    dispatch(raiseHPF())
+  else
+    dispatch(dropHPF());
 }

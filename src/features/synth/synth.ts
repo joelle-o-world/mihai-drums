@@ -12,7 +12,9 @@ export class Synth extends EventEmitter {
   ctx: AudioContext;
   masterVolume: GainNode;
   playingSources: {[chokeGroup: number]: AudioBufferSourceNode};
+  hpf: BiquadFilterNode;
   recorderDestination: MediaStreamAudioDestinationNode;
+  mainMix: AudioNode;
 
   constructor() {
     super();
@@ -21,6 +23,13 @@ export class Synth extends EventEmitter {
     this.masterVolume.connect(this.ctx.destination);
     this.recorderDestination = this.ctx.createMediaStreamDestination();
     this.masterVolume.connect(this.recorderDestination);
+    this.hpf = this.ctx.createBiquadFilter();
+    this.hpf.connect(this.masterVolume);
+    this.hpf.type = 'highpass';
+    this.hpf.frequency.value = 30
+    this.hpf.Q.value = 10
+    this.mainMix = this.hpf
+
     this.playingSources = {};
   }
 
@@ -41,7 +50,7 @@ export class Synth extends EventEmitter {
       if(buffer) {
         let source = this.ctx.createBufferSource();
         source.buffer = buffer;
-        source.connect(this.masterVolume);
+        source.connect(this.mainMix);
         source.start(t);
         if(chokeGroup !== undefined)
           this.playingSources[chokeGroup] = source;
@@ -69,6 +78,13 @@ export class Synth extends EventEmitter {
     );
     recorder.start();
     return recorder;
+  }
+
+  raiseHPF(t=this.ctx.currentTime, frequency=700) {
+    this.hpf.frequency.setTargetAtTime(frequency, t, 10);
+  }
+  dropHPF(t=this.ctx.currentTime, frequency=30) {
+    this.hpf.frequency.setTargetAtTime(frequency, t, 0.1);
   }
 }
 

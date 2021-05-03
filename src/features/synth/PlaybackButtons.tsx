@@ -50,7 +50,7 @@ export const RecordButton: FunctionComponent = () => {
 export const RecordingIndicator: FunctionComponent = () => {
   const {recording} = useSelector(selectSynth);
 
-  return <LED turnedOn={recording} />
+  return <LED blink turnedOn={recording} />
 }
 
 

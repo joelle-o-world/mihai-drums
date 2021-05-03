@@ -4,8 +4,13 @@ import './LED.sass'
 
 export const LED:FunctionComponent<{
   turnedOn?: boolean;
-}> = ({turnedOn=false}) => {
+  blink?: boolean;
+}> = ({turnedOn=false, blink=false}) => {
   return <span 
-    className={classNames('LED', turnedOn ? 'turnedOn' : 'turnedOff')}
+    className={classNames(
+      'LED', 
+      turnedOn ? 'turnedOn' : 'turnedOff',
+      {blink}
+    )}
   />
 }

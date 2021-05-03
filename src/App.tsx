@@ -7,6 +7,7 @@ import {DoublePatternButton} from './features/pattern-editor/DoublePatternButton
 import {TempoButtonInput} from './features/pattern-editor/TempoInput';
 import ClearPatternButton from './features/pattern-editor/ClearPatternButton';
 import AkMihai from './images/akai-mihai.png';
+import ToggleHPF from './features/synth/ToggleHPF';
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
         <PlaybackButtons/>
         <TempoButtonInput />
         <ClearPatternButton/>
+        <ToggleHPF/>
       </div>
       <div className="PatternEditorWrapper">
         <PatternEditor/>
