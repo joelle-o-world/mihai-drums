@@ -9,11 +9,14 @@ loadDrumBuffers(new AudioContext());
 export class Synth extends EventEmitter {
   
   ctx: AudioContext;
+  masterVolume: GainNode;
   playingSources: {[chokeGroup: number]: AudioBufferSourceNode};
 
   constructor() {
     super();
     this.ctx = new AudioContext();
+    this.masterVolume = this.ctx.createGain();
+    this.masterVolume.connect(this.ctx.destination);
     this.playingSources = {};
   }
 
@@ -32,10 +35,9 @@ export class Synth extends EventEmitter {
         throw `Drum sample didn't load in time: "${name}"`;
 
       if(buffer) {
-        console.log('playing', name);
         let source = this.ctx.createBufferSource();
         source.buffer = buffer;
-        source.connect(this.ctx.destination);
+        source.connect(this.masterVolume);
         source.start(t);
         if(chokeGroup !== undefined)
           this.playingSources[chokeGroup] = source;
