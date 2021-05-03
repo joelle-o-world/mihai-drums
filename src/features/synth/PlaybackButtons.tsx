@@ -1,9 +1,11 @@
 import React, {FunctionComponent} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {IoPlaySharp, IoStopSharp} from 'react-icons/io5';
+import {BsCircleFill} from 'react-icons/bs'
 import {synthPlay, selectSynth, stopPlaying, unloop, startRecording} from './synthSlice';
 import {ImLoop} from 'react-icons/im/'
 import {PushButton} from '../../components/PushButton';
+import {LED} from '../../components/LED';
 
 export const PlayButton: FunctionComponent<{loop?:boolean}> = ({loop=false}) => {
   const dispatch = useDispatch();
@@ -36,11 +38,19 @@ export const RecordButton: FunctionComponent = () => {
     return <PushButton
       onClick={() => dispatch(stopPlaying())}
       className="RedPushButton"
-    >stop recording</PushButton>
+      ><RecordingIndicator/> stop recording</PushButton>
   else
     return <PushButton
       //disabled={playing}
       className="RedPushButton"
       onClick={() => dispatch(startRecording())}
-    >record</PushButton>
+      ><RecordingIndicator/> record</PushButton>
 }
+
+export const RecordingIndicator: FunctionComponent = () => {
+  const {recording} = useSelector(selectSynth);
+
+  return <LED turnedOn={recording} />
+}
+
+
