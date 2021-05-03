@@ -23,7 +23,6 @@ const audioFiles: {[name:string]: string} = {
   snare, 
   hihat, 
   open_hat,
-  tom, 
   bongo, 
   cowbell, 
   shaker ,

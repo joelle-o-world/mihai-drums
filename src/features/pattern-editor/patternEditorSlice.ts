@@ -36,7 +36,6 @@ const initialState: PatternEditorState = {
     blankChannel('kick'),
     blankChannel('clap'),
     blankChannel('snare'),
-    blankChannel('tom'),
     blankChannel('hihat', 12),
     blankChannel('open_hat', 12),
     blankChannel('shaker'),
