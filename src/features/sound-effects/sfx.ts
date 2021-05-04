@@ -6,6 +6,7 @@ import buttonSound3 from './audio/zapsplat_multimedia_button_click_fast_plastic_
 import buttonSound4 from './audio/zapsplat_household_fan_button_press_002_13850.mp3'
 import buttonSound5 from './audio/technology_laptop_notebook_return_or_enter_key_press.mp3'
 
+
 export const buttonSounds: AudioBuffer[] = [];
 
 // @ts-ignore
@@ -51,6 +52,6 @@ export function playRandomButtonSound() {
     source.connect(buttonFxGain);
     source.start();
 
-    console.log('played button sound');
+    //console.log('played button sound');
   }
 }

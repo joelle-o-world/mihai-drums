@@ -15,6 +15,7 @@ export class Synth extends EventEmitter {
   hpf: BiquadFilterNode;
   recorderDestination: MediaStreamAudioDestinationNode;
   mainMix: AudioNode;
+  compressor: DynamicsCompressorNode;
 
   constructor() {
     super();
@@ -24,11 +25,19 @@ export class Synth extends EventEmitter {
     this.recorderDestination = this.ctx.createMediaStreamDestination();
     this.masterVolume.connect(this.recorderDestination);
     this.hpf = this.ctx.createBiquadFilter();
-    this.hpf.connect(this.masterVolume);
     this.hpf.type = 'highpass';
     this.hpf.frequency.value = 30
     this.hpf.Q.value = 10
     this.mainMix = this.hpf
+    this.compressor = this.ctx.createDynamicsCompressor();
+    this.hpf.connect(this.compressor);
+    this.compressor.connect(this.masterVolume);
+    this.compressor.threshold.value = -14
+    this.compressor.attack.value = 0.004
+    this.compressor.release.value = 0.015
+    console.log(this.compressor);
+    //@ts-ignore
+    window.comp = this.compressor
 
     this.playingSources = {};
   }

@@ -56,12 +56,10 @@ export const synthSlice = createSlice({
 
     raisedHPF: state => {
       state.hpfRaised = true;
-      console.log('raised');
     },
 
     droppedHPF: state => {
       state.hpfRaised = false;
-      console.log('dropped')
     },
   },
 });
@@ -133,7 +131,6 @@ export const dropHPF = (): AppThunk => dispatch => {
 }
 
 export const toggleHPF = (): AppThunk => (dispatch, getState) => {
-  console.log('toggling');
   if(!getState().synth.hpfRaised)
     dispatch(raiseHPF())
   else
