@@ -8,8 +8,11 @@ import {TempoButtonInput} from './features/pattern-editor/TempoInput';
 import ClearPatternButton from './features/pattern-editor/ClearPatternButton';
 import AkMihai from './images/akai-mihai.png';
 import ToggleHPF from './features/synth/ToggleHPF';
+import {useSelector} from 'react-redux';
+import {selectPatternEditor} from './features/pattern-editor/patternEditorSlice';
 
 function App() {
+  const {numberOfSteps} = useSelector(selectPatternEditor)
   return (
     <div className="App">
       <div className="Controls">
@@ -20,6 +23,9 @@ function App() {
         <PlaybackButtons/>
         <TempoButtonInput />
         <ClearPatternButton/>
+        {
+          numberOfSteps < 32 ? <DoublePatternButton/> : null
+        }
         <ToggleHPF/>
       </div>
       <div className="PatternEditorWrapper">

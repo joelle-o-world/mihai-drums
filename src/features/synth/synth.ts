@@ -32,7 +32,7 @@ export class Synth extends EventEmitter {
     this.compressor = this.ctx.createDynamicsCompressor();
     this.hpf.connect(this.compressor);
     this.compressor.connect(this.masterVolume);
-    this.compressor.threshold.value = -14
+    this.compressor.threshold.value = -12
     this.compressor.attack.value = 0.004
     this.compressor.release.value = 0.015
     console.log(this.compressor);
@@ -80,7 +80,6 @@ export class Synth extends EventEmitter {
     const mimeType = ['audio/wav', 'audio/mpeg', 'audio/webm', 'audio/ogg']
       .filter(MediaRecorder.isTypeSupported)[0]
 
-    console.log('## mimeType', mimeType);
     let recorder = new MediaRecorder(
       this.recorderDestination.stream,
       {mimeType},
@@ -90,7 +89,7 @@ export class Synth extends EventEmitter {
   }
 
   raiseHPF(t=this.ctx.currentTime, frequency=700) {
-    this.hpf.frequency.setTargetAtTime(frequency, t, 10);
+    this.hpf.frequency.setTargetAtTime(frequency, t, 16);
   }
   dropHPF(t=this.ctx.currentTime, frequency=30) {
     this.hpf.frequency.setTargetAtTime(frequency, t, 0.1);
