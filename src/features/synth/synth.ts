@@ -89,7 +89,7 @@ export class Synth extends EventEmitter {
   }
 
   raiseHPF(t=this.ctx.currentTime, frequency=700) {
-    this.hpf.frequency.setTargetAtTime(frequency, t, 16);
+    this.hpf.frequency.setTargetAtTime(frequency, t, 30);
   }
   dropHPF(t=this.ctx.currentTime, frequency=30) {
     this.hpf.frequency.setTargetAtTime(frequency, t, 0.1);
